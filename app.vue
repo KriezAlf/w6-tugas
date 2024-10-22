@@ -40,7 +40,7 @@
             <h3>{{ comment.name }}</h3>
             <small>{{ comment.email }}</small>
           </header>
-          <div v-html="comment.comment"></div>
+          <div v-html="sanitize(comment.comment)"></div>
         </article>
       </section>
     </div>
@@ -49,6 +49,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import DOMPurify from 'dompurify'
 
 const form = ref({
   name: '',
@@ -103,6 +104,10 @@ const searchComments = async () => {
   } catch (error) {
     console.error('Failed to search comments:', error)
   }
+}
+
+const sanitize = (html) => {
+  return DOMPurify.sanitize(html)
 }
 
 const downloadFile = async () => {

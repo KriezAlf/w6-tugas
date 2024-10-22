@@ -6,6 +6,9 @@ ENV DATABASE_URL ${DATABASE_URL}
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+
+# COPY prisma ./prisma/
+RUN npm install
 RUN npm ci 
 
 COPY . .
@@ -13,6 +16,7 @@ COPY . .
 RUN echo "DATABASE_URL is: $DATABASE_URL"
 RUN npx prisma generate
 # RUN npx prisma migrate deploy
+
 # RUN npx prisma db seed
 RUN npm run build
 
